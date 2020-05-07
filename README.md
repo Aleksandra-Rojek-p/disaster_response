@@ -13,9 +13,10 @@ The Project consists of 3 sections:
 ### Instalation
 
 Clone this GIT repository:
-'''
+
+```
 https://github.com/Aleksandra-Rojek-p/disaster_response.git
-'''
+```
 
 ### Instructions to execute the program
 1. Run the following commands in the project's root directory to set up your database and model.

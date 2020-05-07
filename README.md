@@ -6,11 +6,11 @@ This Project is part of Udacity's Data Science Nanodegree Program. The dataset i
 
 The Project consists of 3 sections:
 
-1. ETL (Extract, Load, Transform) Pipeline which imports data, cleans it and saves it in the databse structure using SQLite
-2. Machine Learning Pipeline which trains the model and imporves it using gridsearch
-3. Web App that takes an input message and provides classification results alng wit data visualizations.
+1. ETL (Extract, Load, Transform) Pipeline which imports data, cleans it and saves it in the database structure using SQLite.
+2. Machine Learning Pipeline which trains the model and improves it using grid search for hyper parameter tuning.
+3. Web App that takes an input message and provides classification results along with data visualizations.
 
-### Instalation
+### Installation
 
 Clone this GIT repository:
 
@@ -33,5 +33,5 @@ https://github.com/Aleksandra-Rojek-p/disaster_response.git
 
 ### Acknowledgements
 
-1. [Udacity](https://www.udacity.com/) for putting together this project and Data Science Nanodegreeprogram
+1. [Udacity](https://www.udacity.com/) for putting together this project and Data Science Nanodegree program
 2. [Figure Eight](https://www.figure-eight.com/) for providing the data

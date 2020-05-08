@@ -31,6 +31,23 @@ https://github.com/Aleksandra-Rojek-p/disaster_response.git
 
 3. Go to http://0.0.0.0:3001/
 
+### Code files
+
+- `app/`
+  - `templates/`
+    - `master.html`  -  The main page of the web app.
+    - `go.html`  -  The result of the classfication page.
+  - `run.py`  - Main python file with flask applications.
+
+- `data/`
+  - `disaster_categories.csv`  - Dataset with disaster categories.
+  - `disaster_messages.csv`  - Dataset with Disaster Messages. 
+  - `DisasterResponse.db`   - The database with the merged and cleaned data.
+  - `process_data.py` - The python script with data processing pipeline. 
+
+- `models/`
+  - `train_classifier.py` - The python script with Machine Learning pipeline.
+
 ### Acknowledgements
 
 1. [Udacity](https://www.udacity.com/) for putting together this project and Data Science Nanodegree program

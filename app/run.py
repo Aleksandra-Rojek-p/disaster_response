@@ -1,6 +1,7 @@
 import json
 import plotly
 import pandas as pd
+import numpy as np
 import sys
 
 from nltk.stem import WordNetLemmatizer
@@ -8,7 +9,7 @@ from nltk.tokenize import word_tokenize
 
 from flask import Flask
 from flask import render_template, request, jsonify
-from plotly.graph_objs import Bar
+from plotly.graph_objs import Bar, Histogram
 from sklearn.externals import joblib
 from sqlalchemy import create_engine
 
@@ -19,24 +20,12 @@ app = Flask(__name__)
 sys.path.append("../models")
 from train_classifier import *
 
-def tokenize(text):
-    tokens = word_tokenize(text)
-    lemmatizer = WordNetLemmatizer()
-
-    clean_tokens = []
-    for tok in tokens:
-        clean_tok = lemmatizer.lemmatize(tok).lower().strip()
-        clean_tokens.append(clean_tok)
-
-    return clean_tokens
-
 # load data
 engine = create_engine('sqlite:///../data/DisasterResponse.db')
 df = pd.read_sql_table('disaster_messages', engine)
 
 # load model
 model = joblib.load("../models/classifier.pkl")
-
 
 # index webpage displays cool visuals and receives user input text for model
 @app.route('/')
@@ -47,6 +36,13 @@ def index():
     # TODO: Below is an example - modify to extract data for your own visuals
     genre_counts = df.groupby('genre').count()['message']
     genre_names = list(genre_counts.index)
+    
+    category_names = list(df.iloc[:,4:].columns)
+    category_boolean = (df.iloc[:,4:] != 0).sum().values
+    
+    message_lengths = df.message.apply(lambda x: len(x))
+    message_lengths_reduced = [x for x in message_lengths if x<1000] # removing longest messages for graph clarity
+    
     
     # create visuals
     # TODO: Below is an example - modify to create your own visuals
@@ -68,7 +64,46 @@ def index():
                     'title': "Genre"
                 }
             }
+        },
+        {
+            'data': [
+                Bar(
+                    y=category_names,
+                    x=category_boolean,
+                    orientation = 'h'
+                )
+            ],
+
+            'layout': {
+                'title': 'Distribution of Message Categories',
+                'yaxis': {
+                    'title': "Category",
+                    'tickangle': 35
+                },
+                'xaxis': {
+                    'title': "Count"
+                }
+            }
+        },
+        {
+            'data': [
+                Histogram(
+                    x = message_lengths_reduced,
+                    name='Message Length'
+                )
+            ],
+
+            'layout': {
+                'title': 'Distribution of Message Length',
+                'yaxis':{
+                    'title':'Count'
+                },
+                'xaxis': {
+                    'title':'Message Length'
+                }
+            }
         }
+        
     ]
     
     # encode plotly graphs in JSON

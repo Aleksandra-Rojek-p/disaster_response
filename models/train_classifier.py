@@ -4,6 +4,7 @@
 import pandas as pd
 import numpy as np
 from sqlalchemy import create_engine
+from sklearn.utils import parallel_backend
 import pickle
 import sys
 
@@ -160,8 +161,9 @@ def save_model(model, model_filepath):
         model: machine learning model
         model_filepath: model file path
     """
-    with open(model_filepath, 'wb') as file:
-        pickle.dump(model, file)
+    #with open(model_filepath, 'wb') as file:
+    #    pickle.dump(model, file)
+    pickle.dump(model, open(model_filepath, 'wb'))
 
 
 def main():
@@ -171,19 +173,21 @@ def main():
         X, Y, category_names = load_data(database_filepath)
         X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.2)
         
-        print('Building model...')
-        model = build_model()
+        with parallel_backend('multiprocessing'):
+            
+            print('Building model...')
+            model = build_model()
         
-        print('Training model...')
-        model.fit(X_train, Y_train)
+            print('Training model...')
+            model.fit(X_train, Y_train)
         
-        print('Evaluating model...')
-        evaluate_model(model, X_test, Y_test, category_names)
+            print('Evaluating model...')
+            evaluate_model(model, X_test, Y_test, category_names)
 
-        print('Saving model...\n    MODEL: {}'.format(model_filepath))
-        save_model(model, model_filepath)
+            print('Saving model...\n    MODEL: {}'.format(model_filepath))
+            save_model(model, model_filepath)
 
-        print('Trained model saved!')
+            print('Trained model saved!')
 
     else:
         print('Please provide the filepath of the disaster messages database '\
